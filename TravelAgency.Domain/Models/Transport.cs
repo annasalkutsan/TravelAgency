@@ -2,10 +2,10 @@
 
 public class Transport : BaseEntity
 {
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
+    public string Description { get; set; } = null!;
     public int Capacity { get; set; }
-    public Guid TourId { get; set; }
-    public Tour Tour { get; set; }
-    
-    public Transport (){}   
+
+    // Связь с турами
+    public ICollection<Tour> Tours { get; set; } = new List<Tour>();
 }
