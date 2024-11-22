@@ -18,6 +18,11 @@ builder.Services.AddDbContext<TravelAgencyDbContext>(options =>
 // Регистрация репозиториев и сервисов
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<TransportService>();
+builder.Services.AddScoped<LocationService>();
+builder.Services.AddScoped<TourService>();
+builder.Services.AddScoped<BookingService>();
+builder.Services.AddScoped<TourLocationService>();
 
 // Добавление AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

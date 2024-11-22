@@ -5,7 +5,7 @@ using TravelAgency.Domain.Models;
 
 namespace TravelAgency.Infrastructure.Repositories;
 
-public class Repository<T> : IRepository<T> where T : BaseEntity
+public class Repository<T> : IRepository<T> where T : class
 {
     private readonly TravelAgencyDbContext _context;
     private readonly DbSet<T> _dbSet;
