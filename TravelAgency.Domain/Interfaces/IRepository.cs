@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using TravelAgency.Domain.Models;
 
 namespace TravelAgency.Domain.Interfaces;
 

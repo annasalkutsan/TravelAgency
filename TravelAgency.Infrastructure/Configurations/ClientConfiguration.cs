@@ -12,8 +12,17 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 
         builder.Property(c => c.Id).HasColumnName("id");
         builder.Property(c => c.CreationDate).HasColumnName("creationDate");
-        builder.Property(c => c.FullName.FirstName).HasColumnName("firstName").IsRequired();
-        builder.Property(c => c.FullName.LastName).HasColumnName("lastName").IsRequired();
+        builder.OwnsOne(c => c.FullName, fullName =>
+        {
+            fullName.Property(fn => fn.FirstName)
+                .HasColumnName("firstName")
+                .IsRequired();
+
+            fullName.Property(fn => fn.LastName)
+                .HasColumnName("lastName")
+                .IsRequired();
+        });
+        
         builder.Property(c => c.Email).HasColumnName("email").IsRequired();
         builder.Property(c => c.PhoneNumber).HasColumnName("phoneNumber").IsRequired();
 

@@ -12,11 +12,6 @@ public class TravelAgencyDbContext : DbContext
     public DbSet<TourLocation> TourLocations { get; set; }
     public DbSet<Transport> Transports { get; set; }
     public DbSet<Booking> Bookings { get; set; }
-
-    public TravelAgencyDbContext(DbContextOptions<TravelAgencyDbContext> options) : base(options)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
