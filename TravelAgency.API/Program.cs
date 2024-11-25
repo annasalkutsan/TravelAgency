@@ -1,5 +1,7 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TravelAgency.Application.Services;
+using TravelAgency.Application.Validation;
 using TravelAgency.Domain.Interfaces;
 using TravelAgency.Infrastructure;
 using TravelAgency.Infrastructure.Repositories;
@@ -26,6 +28,11 @@ builder.Services.AddScoped<TourLocationService>();
 
 // Добавление AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddValidatorsFromAssemblyContaining<ClientRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LocationRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TourRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TransportRequestValidator>();
 
 var app = builder.Build();
 
