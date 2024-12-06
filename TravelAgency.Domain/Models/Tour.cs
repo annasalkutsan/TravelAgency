@@ -1,4 +1,6 @@
-﻿namespace TravelAgency.Domain.Models;
+﻿using FluentValidation;
+
+namespace TravelAgency.Domain.Models;
 
 public class Tour : BaseEntity
 {
@@ -17,4 +19,22 @@ public class Tour : BaseEntity
 
     // Связь с бронированиями
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+    public Tour (){}
+    public Tour(
+        string name,
+        string description,
+        DateTime startDate,
+        DateTime endDate,
+        decimal price,
+        IValidator<Tour> validator)
+    {
+        Name = name;
+        Description = description;
+        StartDate = startDate;
+        EndDate = endDate;
+        Price = price;
+
+        // Вызов валидации
+        validator.ValidateAndThrow(this);
+    }
 }

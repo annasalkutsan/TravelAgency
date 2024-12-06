@@ -1,4 +1,5 @@
-﻿using TravelAgency.Domain.ValueObjects;
+﻿using FluentValidation;
+using TravelAgency.Domain.ValueObjects;
 
 namespace TravelAgency.Domain.Models;
 
@@ -10,4 +11,13 @@ public class Client : BaseEntity
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     
     public Client (){}   
+    public Client(FullName fullName, string phoneNumber, string? email, IValidator<Client> validator)
+    {
+        FullName = fullName;
+        PhoneNumber = phoneNumber;
+        Email = email;
+
+        // Вызов валидации через FluentValidation
+        validator.ValidateAndThrow(this);
+    }
 }
