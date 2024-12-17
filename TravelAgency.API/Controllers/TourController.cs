@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Application.DTOs;
 using TravelAgency.Application.Services;
 
@@ -29,6 +30,7 @@ public class TourController : ControllerBase
         return Ok(tours);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> AddTour(TourRequestDto tourDto)
     {
@@ -36,6 +38,7 @@ public class TourController : ControllerBase
         return CreatedAtAction(nameof(GetTourById), new { id = createdTour.Id }, createdTour);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTour(Guid id, TourRequestDto tourDto)
     {
@@ -43,6 +46,7 @@ public class TourController : ControllerBase
         return Ok(updatedTour);
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> RemoveTour(Guid id)
     {
