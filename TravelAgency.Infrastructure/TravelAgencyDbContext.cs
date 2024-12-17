@@ -9,6 +9,8 @@ public class TravelAgencyDbContext : DbContext
     public TravelAgencyDbContext(DbContextOptions<TravelAgencyDbContext> options) 
         : base(options) { }
     
+    public TravelAgencyDbContext() { }
+    
     public DbSet<Client> Clients { get; set; }
     public DbSet<Tour> Tours { get; set; }
     public DbSet<Location> Locations { get; set; }

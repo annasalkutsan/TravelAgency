@@ -24,6 +24,9 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         });
         
         builder.Property(c => c.Email).HasColumnName("email").IsRequired();
+        builder.Property(c => c.PasswordHash).HasColumnName("passwordHash")
+            .IsRequired()
+            .HasMaxLength(500);
         builder.Property(c => c.PhoneNumber).HasColumnName("phoneNumber").IsRequired();
 
         builder.HasMany(c => c.Bookings)

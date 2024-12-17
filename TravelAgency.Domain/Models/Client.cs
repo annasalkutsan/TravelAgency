@@ -9,7 +9,8 @@ public class Client : BaseEntity
     public string PhoneNumber { get; set; }
     public string? Email { get; set; }
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
-    
+    public string PasswordHash { get; set; }
+
     public Client (){}   
     public Client(FullName fullName, string phoneNumber, string? email, IValidator<Client> validator)
     {
