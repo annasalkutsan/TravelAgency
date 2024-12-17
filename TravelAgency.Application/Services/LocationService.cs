@@ -26,12 +26,33 @@ public class LocationService
         return _mapper.Map<LocationResponseDto>(location);
     }
 
-    public async Task<ICollection<LocationResponseDto>> GetAllLocationsAsync()
+    public async Task<PagedResultDto<LocationResponseDto>> GetAllLocationsAsync(int pageNumber, int pageSize)
     {
-        var locations = await _locationRepository.GetAllAsync();
-        return _mapper.Map<ICollection<LocationResponseDto>>(locations);
-    }
+        // Получаем все локации
+        var allLocations = await _locationRepository.GetAllAsync();
 
+        // Применяем пагинацию
+        var pagedLocations = allLocations
+            .Skip((pageNumber - 1) * pageSize) // Пропускаем старые записи
+            .Take(pageSize) // Берем только нужное количество
+            .ToList();
+
+        // Маппим данные в DTO
+        var locationsDto = _mapper.Map<ICollection<LocationResponseDto>>(pagedLocations);
+
+        // Получаем общее количество локаций для вычисления общего числа страниц
+        var totalItems = allLocations.Count;
+
+        return new PagedResultDto<LocationResponseDto>
+        {
+            Items = locationsDto,
+            TotalItems = totalItems,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalPages = (int)Math.Ceiling((double)totalItems / pageSize) // Рассчитываем общее количество страниц
+        };
+    }
+    
     public async Task<LocationResponseDto> AddLocationAsync(LocationRequestDto locationDto)
     {
         var location = _mapper.Map<Location>(locationDto);

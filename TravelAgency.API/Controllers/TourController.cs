@@ -24,10 +24,13 @@ public class TourController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllTours()
+    public async Task<ActionResult<PagedResultDto<TourResponseDto>>> GetAllToursAsync([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var tours = await _tourService.GetAllToursAsync();
-        return Ok(tours);
+        if (pageNumber < 1) pageNumber = 1; // Обработка некорректного номера страницы
+        if (pageSize < 1) pageSize = 10; // Обработка некорректного размера страницы
+
+        var result = await _tourService.GetAllToursAsync(pageNumber, pageSize);
+        return Ok(result);
     }
 
     [Authorize]

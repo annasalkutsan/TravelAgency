@@ -26,10 +26,31 @@ public class TourService
         return _mapper.Map<TourResponseDto>(tour);
     }
 
-    public async Task<ICollection<TourResponseDto>> GetAllToursAsync()
+    public async Task<PagedResultDto<TourResponseDto>> GetAllToursAsync(int pageNumber, int pageSize)
     {
-        var tours = await _tourRepository.GetAllAsync();
-        return _mapper.Map<ICollection<TourResponseDto>>(tours);
+        // Получаем все туры
+        var allTours = await _tourRepository.GetAllAsync();
+
+        // Применяем пагинацию
+        var pagedTours = allTours
+            .Skip((pageNumber - 1) * pageSize) // Пропуск старых записей
+            .Take(pageSize) // Берем только нужное количество
+            .ToList();
+
+        // Маппим данные в DTO
+        var toursDto = _mapper.Map<ICollection<TourResponseDto>>(pagedTours);
+
+        // Получаем общее количество туров для вычисления общего числа страниц
+        var totalItems = allTours.Count;
+
+        return new PagedResultDto<TourResponseDto>
+        {
+            Items = toursDto,
+            TotalItems = totalItems,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalPages = (int)Math.Ceiling((double)totalItems / pageSize) // Рассчитываем общее количество страниц
+        };
     }
 
     public async Task<TourResponseDto> AddTourAsync(TourRequestDto tourDto)

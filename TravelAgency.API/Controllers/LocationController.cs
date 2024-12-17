@@ -24,10 +24,13 @@ public class LocationController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllLocations()
+    public async Task<ActionResult<PagedResultDto<LocationResponseDto>>> GetAllLocationsAsync([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var locations = await _locationService.GetAllLocationsAsync();
-        return Ok(locations);
+        if (pageNumber < 1) pageNumber = 1; // Обработка некорректного номера страницы
+        if (pageSize < 1) pageSize = 10; // Обработка некорректного размера страницы
+
+        var result = await _locationService.GetAllLocationsAsync(pageNumber, pageSize);
+        return Ok(result);
     }
 
     [Authorize]
